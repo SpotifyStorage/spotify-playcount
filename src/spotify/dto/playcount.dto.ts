@@ -1,6 +1,5 @@
 export interface PlaycountDto {
-    clientId: string,
-    accessToken: string,
-    accessTokenExpirationTimestampMs: number,
-    isAnonymous: boolean
+    uri: string;
+    playcount: number;
+    date: number;
 }

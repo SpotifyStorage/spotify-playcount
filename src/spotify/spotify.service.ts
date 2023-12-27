@@ -3,11 +3,16 @@ import { Injectable } from "@nestjs/common";
 import { stringify } from "querystring";
 import { lastValueFrom, map } from "rxjs";
 import { AlbumResponse } from "src/interfaces/spotify-responses/album-response.interface";
+import { TokenService } from "src/token_handler/token.service";
+import { PlaycountDto } from "./dto";
 
 @Injectable()
 export class SpotifyService {
 
-    constructor(private readonly httpService: HttpService) {}
+    constructor(
+        private readonly httpService: HttpService,
+        private readonly tokenService: TokenService
+    ) {}
     
     getHeader(authToken: string) {
         return {
@@ -40,7 +45,7 @@ export class SpotifyService {
         }
     }
 
-    getAlbumPlayCount(header, payload) {
+    getAlbumData(header, payload): Promise<AlbumResponse> {
         return lastValueFrom(
             this.httpService
                 .get<AlbumResponse>('https://api-partner.spotify.com/pathfinder/v1/query?' + stringify(payload), {headers: header})
@@ -51,4 +56,19 @@ export class SpotifyService {
                 )
         )
     }
+
+    async getAlbumPlayCount(uri: string, authToken: string): Promise<PlaycountDto[]> {
+        const albumsData = (await this.getAlbumData(this.getHeader(authToken), this.getPayload(uri))).data.albumUnion.tracks.items.map(x => x.track).flat()
+
+        const trackUri = albumsData.map(x => ({
+            uri: x.uri.split(':')[2],
+            playcount: Number(x.playcount),
+            date: Date.now()
+        })).flat()
+
+        return trackUri
+    }
+
+
+
 }

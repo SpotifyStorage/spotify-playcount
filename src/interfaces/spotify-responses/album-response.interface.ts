@@ -5,7 +5,7 @@ export interface AlbumResponse {
     extensions: any;
 }
 
-interface AlbumData {
+export interface AlbumData {
     __typename: string;
     uri: string;
     name: string;
@@ -88,11 +88,12 @@ interface AlbumData {
     };
 }
 
-interface Playability {
+export interface Playability {
     playable: boolean;
     reason: string;
 }
-interface ArtistProfile {
+
+export interface ArtistProfile {
     uri: string;
     profile: {
         name: string;
@@ -104,27 +105,27 @@ interface ArtistProfile {
     sharingInfo?: SharingInfo
 }
   
-interface ImageSource {
+export interface ImageSource {
     url: string;
     width: number;
     height: number;
 }
   
-interface SharingInfo {
+export interface SharingInfo {
     shareUrl: string;
     shareId?: string;
 }
 
-interface TrackContentRating {
+export interface TrackContentRating {
     label: string;
 }
 
-interface LinkedTrack {
+export interface LinkedTrack {
     __typename: string;
     uri: string;
 }
 
-interface Track {
+export interface Track {
     saved: boolean;
     uri: string;
     name: string;
