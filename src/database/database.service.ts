@@ -18,6 +18,8 @@ export class DatabaseService {
         
         let toReturn: TrackPlayCountEntity[] = []
 
+        console.log(tracksData)
+
         tracksData.forEach(async x => {
             const trackPlayCountEntity = new TrackPlayCountEntity()
             trackPlayCountEntity.uri = x.uri
