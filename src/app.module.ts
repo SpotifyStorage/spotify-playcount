@@ -22,11 +22,10 @@ export class AppModule implements OnModuleInit {
   ) {}
 
   onModuleInit() {
-    console.log('patate')
     this.queueService.queueInit()
     this.queueService.queue$.subscribe(async x => {
       const playcounts = this.spotifyService.getAlbumPlayCount(
-        x.uri, 
+        x.albumUri, 
         (await this.tokenService.getValidToken()).accessToken
       )
       this.databaseService.postPlaycountData(await playcounts)

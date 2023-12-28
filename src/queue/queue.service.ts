@@ -5,7 +5,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable()
 export class QueueService {
-    queue$ = new Subject<{uri: string}>()
+    queue$ = new Subject<{albumUri: string}>()
 
     async getSingleMessage() {
         const queueClient = new QueueClient(

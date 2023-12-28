@@ -15,7 +15,7 @@ export class AlbumQueuePopulatorService {
 
     populateQueue() {
         this.httpService
-            .get<{uri: string}[]>('https://discover-new-releases.livelyocean-7de1f403.canadacentral.azurecontainerapps.io/track/all_artists')
+            .get<{albumUri: string}[]>('https://discover-new-releases.livelyocean-7de1f403.canadacentral.azurecontainerapps.io/track/find_all_albums')
             .subscribe(x => {
                 this.addMessages(x.data)
             })
