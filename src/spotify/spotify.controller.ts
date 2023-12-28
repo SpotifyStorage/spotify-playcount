@@ -2,14 +2,15 @@ import { Controller, Get, Query } from "@nestjs/common";
 import { SpotifyService } from "./spotify.service";
 import { ApiQuery } from '@nestjs/swagger';
 import { TokenService } from "src/token_handler/token.service";
-import { AlbumResponse } from "src/interfaces/spotify-responses/album-response.interface";
+import { QueueService } from "src/queue/queue.service";
 
 
 @Controller()
 export class SpotifyController {
     constructor(
         private readonly spotifyService: SpotifyService,
-        private readonly tokenService: TokenService
+        private readonly tokenService: TokenService,
+        private readonly queueService: QueueService,
     ) {}
 
     @ApiQuery({name: 'albumid'})
@@ -27,6 +28,11 @@ export class SpotifyController {
             albumId, 
             (await this.tokenService.getValidToken()).accessToken
         )
+    }
+
+    @Get('queue')
+    getQueueSingleMessage() {
+        return this.queueService.getSingleMessage()
     }
 }
 

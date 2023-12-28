@@ -1,16 +1,11 @@
-// import { Module } from "@nestjs/common";
-// import { TypeOrmModule } from "@nestjs/typeorm";
-// import { TrackPlayCountEntity } from "src/entities/trackplaycount.entity";
-// import { DatabaseController } from "./database.controler";
-// import { DatabaseService } from "./database.service";
-// import { SpotifyService } from "src/spotify/spotify.service";
-// import { TokenService } from "src/token_handler/token.service";
+import { Module } from "@nestjs/common";
+import { DatabaseService } from "./database.service";
+import { HttpModule } from "@nestjs/axios";
 
-// @Module({
-//     imports: [
-//         TypeOrmModule.forFeature([TrackPlayCountEntity])
-//     ],
-//     controllers: [DatabaseController],
-//     providers: [DatabaseService, SpotifyService, TokenService]
-// })
-// export class DatabaseModule {}
+@Module({
+    imports: [HttpModule],
+    controllers: [],
+    providers: [DatabaseService],
+    exports: [DatabaseService]
+})
+export class DatabaseModule {}

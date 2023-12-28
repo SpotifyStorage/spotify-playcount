@@ -11,5 +11,5 @@ WORKDIR /app
 COPY --from=build ./app/dist ./dist
 COPY package* ./
 RUN npm install --production
-EXPOSE 3000
+EXPOSE 3030
 CMD ["npm", "run", "start:prod"]
