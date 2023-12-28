@@ -35,7 +35,7 @@ jobs:
       - name: Deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          containerAppName: discover-new-releases
+          containerAppName: spotify-playcount
           resourceGroup: SpotifyStorage
           registryUrl: registry.hub.docker.com
           imageToDeploy: binimo/spots-playcount:latest
