@@ -1,13 +1,13 @@
 import { HttpService } from "@nestjs/axios";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { stringify } from "querystring";
 import { lastValueFrom, map } from "rxjs";
 import { AccessToken } from "src/interfaces/spotify-responses/access-token.interface";
 
 @Injectable()
 export class TokenService {
-
     constructor(private readonly httpService: HttpService) {}
+    logger = new Logger(TokenService.name)
     
     activeToken = {
         clientId: '',
@@ -18,12 +18,12 @@ export class TokenService {
 
 
     async getNewToken(): Promise<AccessToken> {
+        this.logger.verbose('Getting new spotify token')
         const url = 'https://open.spotify.com/get_access_token?';
         const payload = {
             reason: "transpost",
             productType: 'web_player'
         };
-
         return lastValueFrom(
             this.httpService
                 .get<AccessToken>(url + stringify(payload))
