@@ -8,10 +8,21 @@ import { TokenService } from './token_handler/token.service';
 import { DatabaseService } from './database/database.service';
 import { DatabaseModule } from './database/database.module';
 import { AlbumQueuePopulatorModule } from './album-queue-populator/album-queue-populator.module';
+import { ConfigModule } from '@nestjs/config';
 
 
 @Module({
-  imports: [SpotifyModule, QueueModule, TokenModule, DatabaseModule, AlbumQueuePopulatorModule]
+  imports: [
+    SpotifyModule,
+    QueueModule,
+    TokenModule,
+    DatabaseModule,
+    AlbumQueuePopulatorModule,
+    ConfigModule.forRoot({
+      envFilePath: ['.env'],
+      isGlobal: true,
+    }),
+  ]
 })
 export class AppModule implements OnModuleInit {
   constructor(

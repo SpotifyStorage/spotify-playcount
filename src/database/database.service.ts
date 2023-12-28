@@ -1,5 +1,6 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { lastValueFrom } from "rxjs";
 import { PlaycountDto } from "src/spotify/dto";
 
@@ -7,13 +8,15 @@ import { PlaycountDto } from "src/spotify/dto";
 export class DatabaseService {
 
     constructor(
-        private readonly httpService: HttpService
+        private readonly httpService: HttpService,
+        private readonly configService: ConfigService
     ) {}
 
     postPlaycountData(tracksData: PlaycountDto[]) {
         return lastValueFrom(
             this.httpService
-                .post('https://discover-new-releases.livelyocean-7de1f403.canadacentral.azurecontainerapps.io/track/playcount', tracksData)
+                .post(`${this.configService.get('MICROSERVICE_DISCOVERY_URL')}/track/playcount`, tracksData)
         )
     }
+    
 }
