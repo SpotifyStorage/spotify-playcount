@@ -1,11 +1,11 @@
 import { HttpService } from "@nestjs/axios";
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
 import { stringify } from "querystring";
 import { lastValueFrom, map } from "rxjs";
 import { AccessToken } from "src/interfaces/spotify-responses/access-token.interface";
 
 @Injectable()
-export class TokenService {
+export class TokenService implements OnModuleInit{
     constructor(private readonly httpService: HttpService) {}
     logger = new Logger(TokenService.name)
     
@@ -15,6 +15,10 @@ export class TokenService {
         accessTokenExpirationTimestampMs: Date.now(),
         isAnonymous: true
     };
+
+    async onModuleInit() {
+        this.activeToken = await this.getNewToken()
+    }
 
 
     async getNewToken(): Promise<AccessToken> {

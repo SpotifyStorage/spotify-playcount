@@ -18,7 +18,7 @@ export class AlbumQueuePopulatorService {
     populateQueue() {
         this.logger.verbose(`Calling queue populator on MICROSERVICE_DISCOVERY_URL: ${this.configService.get("MICROSERVICE_DISCOVERY_URL")}/track/find_all_albums`)
         this.httpService
-            .get<{albumUri: string}[]>(`${this.configService.get("MICROSERVICE_DISCOVERY_URL")}/track/find_all_albums`)
+            .get<{albumUri: string}[]>(`${this.configService.get("MICROSERVICE_DISCOVERY_URL")}/album/get_all`)
             .subscribe(x => {
                 this.addMessages(x.data)
             })

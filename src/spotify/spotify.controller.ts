@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from "@nestjs/common";
+import { Controller, Get, Logger, Query } from "@nestjs/common";
 import { SpotifyService } from "./spotify.service";
 import { ApiQuery } from '@nestjs/swagger';
 import { TokenService } from "src/token_handler/token.service";
@@ -12,6 +12,7 @@ export class SpotifyController {
         private readonly tokenService: TokenService,
         private readonly queueService: QueueService,
     ) {}
+    logger = new Logger(SpotifyController.name)
 
     @ApiQuery({name: 'albumid'})
     @Get('albumData')
@@ -23,8 +24,9 @@ export class SpotifyController {
     }
 
     @Get('albumPlayCount')
-    async getAlbumPlayCount(@Query('albumid') albumId: string) {
-        return this.spotifyService.getAlbumPlayCount(
+    async getAlbumPlaycount(@Query('albumid') albumId: string) {
+        this.logger.verbose('Getting album playcount for ' + albumId)
+        return this.spotifyService.getAlbumPlaycount(
             albumId, 
             (await this.tokenService.getValidToken()).accessToken
         )

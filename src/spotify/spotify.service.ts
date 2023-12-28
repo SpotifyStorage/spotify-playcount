@@ -1,7 +1,7 @@
 import { HttpService } from "@nestjs/axios";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { stringify } from "querystring";
-import { lastValueFrom, map } from "rxjs";
+import { lastValueFrom, map, tap } from "rxjs";
 import { AlbumResponse } from "src/interfaces/spotify-responses/album-response.interface";
 import { TokenService } from "src/token_handler/token.service";
 import { PlaycountDto } from "./dto";
@@ -13,6 +13,7 @@ export class SpotifyService {
         private readonly httpService: HttpService,
         private readonly tokenService: TokenService
     ) {}
+    logger = new Logger(SpotifyService.name)
     
     getHeader(authToken: string) {
         return {
@@ -46,7 +47,8 @@ export class SpotifyService {
     }
 
     getAlbumData(header, payload): Promise<AlbumResponse> {
-        console.log('getting album data')
+        this.logger.verbose('Calling spotify API for album data')
+
         return lastValueFrom(
             this.httpService
                 .get<AlbumResponse>('https://api-partner.spotify.com/pathfinder/v1/query?' + stringify(payload), {headers: header})
@@ -58,7 +60,8 @@ export class SpotifyService {
         )
     }
 
-    async getAlbumPlayCount(uri: string, authToken: string): Promise<PlaycountDto[]> {
+    async getAlbumPlaycount(uri: string, authToken: string): Promise<PlaycountDto[]> {
+        this.logger.verbose('Getting album playcount for ' + uri)
         const albumsData = (await this.getAlbumData(this.getHeader(authToken), this.getPayload(uri))).data.albumUnion.tracks.items.map(x => x.track).flat()
 
         const trackUri = albumsData.map(x => ({
