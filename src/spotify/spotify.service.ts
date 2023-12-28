@@ -46,6 +46,7 @@ export class SpotifyService {
     }
 
     getAlbumData(header, payload): Promise<AlbumResponse> {
+        console.log('getting album data')
         return lastValueFrom(
             this.httpService
                 .get<AlbumResponse>('https://api-partner.spotify.com/pathfinder/v1/query?' + stringify(payload), {headers: header})
