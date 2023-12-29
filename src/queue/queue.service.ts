@@ -32,15 +32,15 @@ export class QueueService {
         );
         
         while (true) {
+            await new Promise(r => setTimeout(r, 2000));
             const response = await queueClient.receiveMessages({
-                numberOfMessages: 1,
+                numberOfMessages: 32,
             });
-    
-            const message = response.receivedMessageItems[0];
-            if (message) {
+
+            response.receivedMessageItems.forEach(async (message) => {
                 await queueClient.deleteMessage(message.messageId, message.popReceipt);
                 this.queue$.next(JSON.parse(message.messageText))
-            }
+            });
         }
     }
 }

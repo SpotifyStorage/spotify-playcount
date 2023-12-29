@@ -34,14 +34,12 @@ export class AppModule implements OnModuleInit {
 
   onModuleInit() {
     this.queueService.queueInit()
-    this.queueService.queue$.subscribe(async x => {
-      //console.log(x.albumUri)
+    this.queueService.queue$.subscribe(async x => { //Can create memory leak
       const playcounts = this.spotifyService.getAlbumPlaycount(
         x.albumUri, 
         (await this.tokenService.getValidToken()).accessToken
       )
-      this.databaseService.postPlaycountData(await playcounts)
-      //console.log(await playcounts)
-    })    
+      await this.databaseService.postPlaycountData(await playcounts)
+    })
   }
 }
