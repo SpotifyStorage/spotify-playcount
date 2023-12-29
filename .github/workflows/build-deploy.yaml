@@ -39,4 +39,5 @@ jobs:
           resourceGroup: SpotifyStorage
           registryUrl: registry.hub.docker.com
           imageToDeploy: binimo/spots-playcount:latest
+          environmentVariables: "MICROSERVICE_DISCOVERY_URL=https://discover-new-releases.livelyocean-7de1f403.canadacentral.azurecontainerapps.io"
           targetPort: 3030
