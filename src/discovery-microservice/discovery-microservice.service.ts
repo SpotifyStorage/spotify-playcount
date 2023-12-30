@@ -14,10 +14,10 @@ export class DiscoveryMicroserviceService {
     logger = new Logger(DiscoveryMicroserviceService.name)
 
     postPlaycountData(tracksData: PlaycountDto[]) {
-        this.logger.verbose(`Posting playcount data to MICROSERVICE_DISCOVERY: ${this.configService.get('MICROSERVICE_DISCOVERY_URL')}/track/playcount`)
+        this.logger.verbose(`Posting playcount data to MICROSERVICE_DISCOVERY: ${this.configService.get('MICROSERVICE_DISCOVERY_URL')}/playcount/many`)
         return lastValueFrom(
             this.httpService
-                .post(`${this.configService.get('MICROSERVICE_DISCOVERY_URL')}/track/playcount`, tracksData)
+                .post(`${this.configService.get('MICROSERVICE_DISCOVERY_URL')}/playcount/many`, tracksData)
         )
     }
     
