@@ -3,7 +3,6 @@ import { QueueClient } from '@azure/storage-queue';
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class AlbumQueuePopulatorService {
@@ -16,9 +15,9 @@ export class AlbumQueuePopulatorService {
     logger = new Logger(AlbumQueuePopulatorService.name)
 
     populateQueue() {
-        this.logger.verbose(`Calling queue populator on MICROSERVICE_DISCOVERY_URL: ${this.configService.get("MICROSERVICE_DISCOVERY_URL")}/album/get_all`)
+        this.logger.verbose(`Calling queue populator on MICROSERVICE_DISCOVERY_URL: ${this.configService.get("MICROSERVICE_DISCOVERY_URL")}/album/all`)
         this.httpService
-            .get<{albumUri: string}[]>(`${this.configService.get("MICROSERVICE_DISCOVERY_URL")}/album/get_all`)
+            .get<{albumUri: string}[]>(`${this.configService.get("MICROSERVICE_DISCOVERY_URL")}/album/all`)
             .subscribe(x => {
                 this.addMessages(x.data)
             })

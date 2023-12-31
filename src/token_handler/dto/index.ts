@@ -1,1 +1,1 @@
-export * from './access_token.dto';
+export * from './access-token.dto';
