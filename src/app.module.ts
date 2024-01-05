@@ -1,4 +1,4 @@
-import { Module, OnModuleInit } from '@nestjs/common';
+import { Logger, Module, OnModuleInit } from '@nestjs/common';
 import { SpotifyModule } from './spotify/spotify.module';
 import { AlbumQueueModule } from './album-queue/album-queue.module';
 import { AlbumQueueService } from './album-queue/album-queue.service';
@@ -32,15 +32,18 @@ export class AppModule implements OnModuleInit {
     private readonly discoveryMicroservice: DiscoveryMicroserviceService
   ) {}
 
+  logger = new Logger(AppModule.name)
+
   onModuleInit() {
     const receiver = this.albumQueueService.addReceiver(async message => {
-      console.log(message.contentType)
-
-      const playcounts = this.spotifyService.getAlbumPlaycount(
-        message.body.albumUri,
-        (await this.tokenService.getValidToken()).accessToken
-      )
-      await this.discoveryMicroservice.postPlaycountData(await playcounts)
+      this.logger.verbose(`Received a messages from the queue containing ${message.body.length} albums`)
+      message.body.forEach(async album => {
+        const playcounts = this.spotifyService.getAlbumPlaycount(
+          album.albumUri,
+          (await this.tokenService.getValidToken()).accessToken
+        )
+        await this.discoveryMicroservice.postPlaycountData(await playcounts)
+      })
     })
   }
 

@@ -2,6 +2,7 @@ import { DefaultAzureCredential } from '@azure/identity';
 import { ServiceBusClient, ServiceBusReceivedMessage, ServiceBusReceiver, ServiceBusSender } from '@azure/service-bus';
 import { QueueClient } from '@azure/storage-queue';
 import { Injectable, OnModuleInit } from '@nestjs/common';
+import { type } from 'os';
 import { Subject } from 'rxjs';
 import { AlbumQueueMessage } from 'src/interfaces/album-queue-message.interface';
 import { MinimalAlbum } from 'src/interfaces/minimal-album.interface';
@@ -27,8 +28,8 @@ export class AlbumQueueService implements OnModuleInit{
         receiver.subscribe({
             processMessage: processMessageCallback,
             processError: async (err) => {
-                console.log(err);
-            },
+                console.log("Error", err);
+            }
         });
         return receiver;
     }

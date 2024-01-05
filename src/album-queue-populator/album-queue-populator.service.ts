@@ -1,9 +1,7 @@
-import { DefaultAzureCredential } from '@azure/identity';
-import { QueueClient } from '@azure/storage-queue';
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { lastValueFrom } from 'rxjs';
+import { first } from 'rxjs';
 import { AlbumQueueService } from 'src/album-queue/album-queue.service';
 import { MinimalAlbum } from 'src/interfaces/minimal-album.interface';
 
@@ -21,22 +19,20 @@ export class AlbumQueuePopulatorService {
     populateQueue() {
         this.logger.verbose(`Calling queue populator on MICROSERVICE_DISCOVERY_URL: ${this.configService.get("MICROSERVICE_DISCOVERY_URL")}/album/all`)
         this.httpService
-            .get<MinimalAlbum[]>(`${this.configService.get("MICROSERVICE_DISCOVERY_URL")}/album/get_all`)
+            .get<MinimalAlbum[]>(`${this.configService.get("MICROSERVICE_DISCOVERY_URL")}/album/all`)
+            .pipe(
+                first()
+            )
             .subscribe(x => {
-                this.addMessages(x.data)
+                this.logger.verbose(`Adding ${x.data.length} messages to the queue`)
+                x.data.forEach(album => {
+                    this.addMessages([album])
+                })
             })
     }
 
     addMessages(minimalAlbums: MinimalAlbum[]) {
         this.logger.verbose(`Adding ${minimalAlbums.length} messages to the queue`)
         this.albumeQueueService.sendMessages(minimalAlbums)
-        // const queueClient = new QueueClient(
-        //     "https://spotifystoragequeues.queue.core.windows.net/spotify-album-1",
-        //     new DefaultAzureCredential()
-        // );
-        
-        // objects.forEach(object => {
-        //     queueClient.sendMessage(JSON.stringify(object))
-        // })
     }
 }
