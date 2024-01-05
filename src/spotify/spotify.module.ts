@@ -5,11 +5,11 @@ import { SpotifyService } from './spotify.service';
 //import { DatabaseController } from 'src/database/database.controler';
 //import { DatabaseService } from 'src/database/database.service';
 import { TokenController } from 'src/token_handler/token.controller';
-import { QueueModule } from 'src/queue/queue.module';
+import { AlbumQueueModule } from 'src/album-queue/album-queue.module';
 import { TokenModule } from 'src/token_handler/token.module';
 
 @Module({
-    imports: [HttpModule, QueueModule, TokenModule],
+    imports: [HttpModule, AlbumQueueModule, TokenModule],
     controllers: [SpotifyController, TokenController],
     providers: [SpotifyService],
     exports: [SpotifyService]

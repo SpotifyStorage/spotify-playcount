@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@azure/identity": "^4.0.0",
+    "@azure/service-bus": "^7.9.3",
     "@azure/storage-queue": "^12.16.0",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/common": "^10.0.0",

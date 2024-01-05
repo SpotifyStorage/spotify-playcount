@@ -1,7 +1,7 @@
 import { Module, OnModuleInit } from '@nestjs/common';
 import { SpotifyModule } from './spotify/spotify.module';
-import { QueueModule } from './queue/queue.module';
-import { QueueService } from './queue/queue.service';
+import { AlbumQueueModule } from './album-queue/album-queue.module';
+import { AlbumQueueService } from './album-queue/album-queue.service';
 import { SpotifyService } from './spotify/spotify.service';
 import { TokenModule } from './token_handler/token.module';
 import { TokenService } from './token_handler/token.service';
@@ -9,12 +9,12 @@ import { DiscoveryMicroserviceService } from './discovery-microservice/discovery
 import { DiscoveryMicroserviceModule } from './discovery-microservice/discovery-microservice.module';
 import { AlbumQueuePopulatorModule } from './album-queue-populator/album-queue-populator.module';
 import { ConfigModule } from '@nestjs/config';
-
+import { time } from 'console';
 
 @Module({
   imports: [
     SpotifyModule,
-    QueueModule,
+    AlbumQueueModule,
     TokenModule,
     DiscoveryMicroserviceModule,
     AlbumQueuePopulatorModule,
@@ -26,20 +26,22 @@ import { ConfigModule } from '@nestjs/config';
 })
 export class AppModule implements OnModuleInit {
   constructor(
-    private readonly queueService: QueueService,
+    private readonly albumQueueService: AlbumQueueService,
     private readonly spotifyService: SpotifyService,
     private readonly tokenService: TokenService,
-    private readonly databaseService: DiscoveryMicroserviceService
+    private readonly discoveryMicroservice: DiscoveryMicroserviceService
   ) {}
 
   onModuleInit() {
-    this.queueService.queueInit()
-    this.queueService.queue$.subscribe(async x => { //Can create memory leak
+    const receiver = this.albumQueueService.addReceiver(async message => {
+      console.log(message.contentType)
+
       const playcounts = this.spotifyService.getAlbumPlaycount(
-        x.albumUri, 
+        message.body.albumUri,
         (await this.tokenService.getValidToken()).accessToken
       )
-      await this.databaseService.postPlaycountData(await playcounts)
+      await this.discoveryMicroservice.postPlaycountData(await playcounts)
     })
   }
+
 }
