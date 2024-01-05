@@ -19,7 +19,7 @@ export class AlbumQueuePopulatorService {
     logger = new Logger(AlbumQueuePopulatorService.name)
 
     populateQueue() {
-        this.logger.verbose(`Calling queue populator on MICROSERVICE_DISCOVERY_URL: ${this.configService.get("MICROSERVICE_DISCOVERY_URL")}/track/find_all_albums`)
+        this.logger.verbose(`Calling queue populator on MICROSERVICE_DISCOVERY_URL: ${this.configService.get("MICROSERVICE_DISCOVERY_URL")}/album/all`)
         this.httpService
             .get<MinimalAlbum[]>(`${this.configService.get("MICROSERVICE_DISCOVERY_URL")}/album/get_all`)
             .subscribe(x => {

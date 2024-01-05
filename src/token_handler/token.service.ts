@@ -3,11 +3,16 @@ import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
 import { stringify } from "querystring";
 import { lastValueFrom, map } from "rxjs";
 import { AccessToken } from "src/interfaces/spotify-responses/access-token.interface";
+import { TokenDto } from "./dto";
 
 @Injectable()
 export class TokenService implements OnModuleInit{
-    constructor(private readonly httpService: HttpService) {}
+
     logger = new Logger(TokenService.name)
+
+    constructor(
+        private readonly httpService: HttpService
+    ) {}
     
     activeToken = {
         clientId: '',
@@ -19,7 +24,6 @@ export class TokenService implements OnModuleInit{
     async onModuleInit() {
         this.activeToken = await this.getNewToken()
     }
-
 
     async getNewToken(): Promise<AccessToken> {
         this.logger.verbose('Getting new spotify token')
@@ -46,7 +50,7 @@ export class TokenService implements OnModuleInit{
         return true
     }
 
-    async getValidToken() {
+    async getValidToken(): Promise<TokenDto> {
         if (!this.isTokenActive()) {
             this.activeToken = await this.getNewToken()
             return this.activeToken
