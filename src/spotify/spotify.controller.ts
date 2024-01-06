@@ -3,6 +3,7 @@ import { SpotifyService } from "./spotify.service";
 import { ApiQuery } from '@nestjs/swagger';
 import { TokenService } from "src/token_handler/token.service";
 import { AlbumQueueService } from "src/album-queue/album-queue.service";
+import { PlaycountDatabaseService } from "src/playcount-database/playcount-database.service";
 
 
 @Controller()
@@ -11,6 +12,7 @@ export class SpotifyController {
         private readonly spotifyService: SpotifyService,
         private readonly tokenService: TokenService,
         private readonly albumQueueService: AlbumQueueService,
+        private readonly playcountDatabaseService: PlaycountDatabaseService
     ) {}
     logger = new Logger(SpotifyController.name)
 
@@ -30,11 +32,6 @@ export class SpotifyController {
             albumId, 
             (await this.tokenService.getValidToken()).accessToken
         )
-    }
-
-    @Get('queue')
-    getQueueSingleMessage() {
-        return this.albumQueueService.getSingleMessage()
     }
 }
 

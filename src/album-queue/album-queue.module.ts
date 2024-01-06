@@ -3,6 +3,6 @@ import { AlbumQueueService } from './album-queue.service';
 
 @Module({
   providers: [AlbumQueueService],
-  exports: [AlbumQueueService]
+  exports: [AlbumQueueService],
 })
 export class AlbumQueueModule {}

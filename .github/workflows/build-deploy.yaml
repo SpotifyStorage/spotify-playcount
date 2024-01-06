@@ -25,7 +25,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: binimo/spots-playcount:latest
+          tags: binimo/spots-playcount:${{ github.run_number }}
 
       - name: Log in to Azure
         uses: azure/login@v1
@@ -38,6 +38,6 @@ jobs:
           containerAppName: spotify-playcount
           resourceGroup: SpotifyStorage
           registryUrl: registry.hub.docker.com
-          imageToDeploy: binimo/spots-playcount:latest
-          environmentVariables: "MICROSERVICE_DISCOVERY_URL=https://discover-new-releases.livelyocean-7de1f403.canadacentral.azurecontainerapps.io"
+          imageToDeploy: binimo/spots-playcount:${{ github.run_number }}
+          environmentVariables: "MICROSERVICE_DISCOVERY_URL=https://discover-new-releases.livelyocean-7de1f403.canadacentral.azurecontainerapps.io AZURE_TABLE_STORAGE_URL=${{ secrets.AZURE_TABLE_STORAGE_URL }}"
           targetPort: 3030

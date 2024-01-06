@@ -10,6 +10,9 @@ import { DiscoveryMicroserviceModule } from './discovery-microservice/discovery-
 import { AlbumQueuePopulatorModule } from './album-queue-populator/album-queue-populator.module';
 import { ConfigModule } from '@nestjs/config';
 import { time } from 'console';
+import { PlaycountDatabaseModule } from './playcount-database/playcount-database.module';
+import { PlaycountDatabaseService } from './playcount-database/playcount-database.service';
+import { PlaycountModule } from './playcount/playcount.module';
 
 @Module({
   imports: [
@@ -22,6 +25,8 @@ import { time } from 'console';
       envFilePath: ['.env'],
       isGlobal: true,
     }),
+    PlaycountDatabaseModule,
+    PlaycountModule,
   ]
 })
 export class AppModule implements OnModuleInit {
@@ -29,8 +34,9 @@ export class AppModule implements OnModuleInit {
     private readonly albumQueueService: AlbumQueueService,
     private readonly spotifyService: SpotifyService,
     private readonly tokenService: TokenService,
-    private readonly discoveryMicroservice: DiscoveryMicroserviceService
-  ) {}
+    private readonly discoveryMicroservice: DiscoveryMicroserviceService,
+    private readonly playcountDatabaseService: PlaycountDatabaseService
+    ) {}
 
   logger = new Logger(AppModule.name)
 
@@ -42,7 +48,8 @@ export class AppModule implements OnModuleInit {
           album.albumUri,
           (await this.tokenService.getValidToken()).accessToken
         )
-        await this.discoveryMicroservice.postPlaycountData(await playcounts)
+        await this.playcountDatabaseService.addMany(await playcounts)
+        // await this.discoveryMicroservice.postPlaycountData(await playcounts)
       })
     })
   }

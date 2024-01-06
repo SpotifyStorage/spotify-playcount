@@ -67,16 +67,17 @@ export class SpotifyService {
         )
     }
 
-    async getAlbumPlaycount(uri: string, authToken: string): Promise<PlaycountDto[]> {
-        this.logger.verbose('Getting album playcount for ' + uri)
-        const albumsData = (await this.getAlbumData(this.getHeader(authToken), this.getPayload(uri))).data.albumUnion.tracks.items.map(x => x.track).flat()
+    async getAlbumPlaycount(albumUri: string, authToken: string): Promise<PlaycountDto[]> {
+        this.logger.verbose('Getting album playcount for ' + albumUri)
+        const albumsData = (await this.getAlbumData(this.getHeader(authToken), this.getPayload(albumUri))).data.albumUnion.tracks.items.map(x => x.track).flat()
 
-        const trackUri = albumsData.map(x => ({
+        const playcounts: PlaycountDto[] = albumsData.map(x => ({
             uri: x.uri.split(':')[2],
             playcount: Number(x.playcount),
-            date: Date.now()
+            date: Date.now(),
+            albumUri: albumUri
         })).flat()
 
-        return trackUri
+        return playcounts
     }
 }
