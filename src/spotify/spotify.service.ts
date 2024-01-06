@@ -1,10 +1,11 @@
 import { HttpService } from "@nestjs/axios";
-import { Injectable, Logger } from "@nestjs/common";
+import { HttpException, Injectable, Logger } from "@nestjs/common";
 import { stringify } from "querystring";
-import { lastValueFrom, map, tap } from "rxjs";
+import { catchError, lastValueFrom, map, tap } from "rxjs";
 import { AlbumResponse } from "src/interfaces/spotify-responses/album-response.interface";
 import { TokenService } from "src/token_handler/token.service";
 import { PlaycountDto } from "./dto";
+import { AxiosError } from "axios";
 
 @Injectable()
 export class SpotifyService {
@@ -55,6 +56,12 @@ export class SpotifyService {
                 .pipe(
                     map(
                         axiosResponse => axiosResponse.data
+                    ),
+                    catchError(
+                        error => {
+                            this.logger.error(error.message)
+                            throw new HttpException(error.message, error.response.status)
+                        }
                     )
                 )
         )
