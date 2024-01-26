@@ -9,8 +9,8 @@ import { PlaycountDatabaseModule } from 'src/playcount-database/playcount-databa
 
 @Module({
     imports: [
-        HttpModule, 
-        AlbumQueueModule, 
+        HttpModule,
+        AlbumQueueModule,
         TokenModule,
         PlaycountDatabaseModule
     ],
@@ -18,4 +18,4 @@ import { PlaycountDatabaseModule } from 'src/playcount-database/playcount-databa
     providers: [SpotifyService],
     exports: [SpotifyService]
 })
-export class SpotifyModule {}
+export class SpotifyModule { }

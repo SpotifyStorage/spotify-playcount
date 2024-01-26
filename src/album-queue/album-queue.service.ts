@@ -8,15 +8,15 @@ import { AlbumQueueMessage } from 'src/interfaces/album-queue-message.interface'
 import { MinimalAlbum } from 'src/interfaces/minimal-album.interface';
 
 @Injectable()
-export class AlbumQueueService implements OnModuleInit{
-    queue$ = new Subject<{albumUri: string}>()
+export class AlbumQueueService implements OnModuleInit {
+    queue$ = new Subject<{ albumUri: string }>()
     fullyQualifiedNamespace = "spotifystorage.servicebus.windows.net";
     credential = new DefaultAzureCredential();
     queueName = "album"
     sbClient: ServiceBusClient;
     sender: ServiceBusSender;
     mainReceiver: ServiceBusReceiver;
-    
+
     onModuleInit() {
         this.sbClient = new ServiceBusClient(this.fullyQualifiedNamespace, this.credential);
         this.sender = this.sbClient.createSender(this.queueName);

@@ -6,14 +6,14 @@ import { AccessToken } from "src/interfaces/spotify-responses/access-token.inter
 import { TokenDto } from "./dto";
 
 @Injectable()
-export class TokenService implements OnModuleInit{
+export class TokenService implements OnModuleInit {
 
     logger = new Logger(TokenService.name)
 
     constructor(
         private readonly httpService: HttpService
-    ) {}
-    
+    ) { }
+
     activeToken = {
         clientId: '',
         accessToken: '',

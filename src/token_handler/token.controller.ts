@@ -4,7 +4,7 @@ import { TokenDto } from "./dto";
 
 @Controller()
 export class TokenController {
-    constructor(private readonly tokenService: TokenService) {}
+    constructor(private readonly tokenService: TokenService) { }
 
     @Get('token')
     token(@Body() dto: TokenDto) {
