@@ -34,4 +34,10 @@ export class PlaycountController {
     async getTrackPlaycountHistory(@Query('trackid') trackId: string) {
         return (await this.playcountDatabaseService.getMany(trackId))
     }
+
+    @Get('track/last-week')
+    @ApiOperation({summary: 'Get all playcount data of a track from the last 7 days'})
+    getLastWeekTrackPlaycount(@Query('trackid') trackId: string) {
+
+    }
 }

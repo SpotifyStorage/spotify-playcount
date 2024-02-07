@@ -98,4 +98,8 @@ export class PlaycountDatabaseService implements OnModuleInit {
         return playcountDtos
     }
 
+    async getManyByLastWeek(uri: string) {
+        
+    }
+
 }
