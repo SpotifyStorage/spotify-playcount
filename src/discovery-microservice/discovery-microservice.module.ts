@@ -8,4 +8,4 @@ import { HttpModule } from "@nestjs/axios";
     providers: [DiscoveryMicroserviceService],
     exports: [DiscoveryMicroserviceService]
 })
-export class DiscoveryMicroserviceModule {}
+export class DiscoveryMicroserviceModule { }

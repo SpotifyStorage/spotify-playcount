@@ -13,7 +13,7 @@ export class PlaycountDatabaseService implements OnModuleInit {
 
     constructor(
         private readonly configService: ConfigService
-    ) {}
+    ) { }
 
     onModuleInit() {
         const credentials = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ export class PlaycountDatabaseService implements OnModuleInit {
         for await (const entity of playcountEntities) {
             playcountDtos.push(PlaycountDto.fromTableItem(entity));
         }
-        
+
         return playcountDtos
     }
 
@@ -58,7 +58,7 @@ export class PlaycountDatabaseService implements OnModuleInit {
         for await (const entity of playcountEntities) {
             playcountDtos.push(PlaycountDto.fromTableItem(entity));
         }
-        
+
         return playcountDtos
             .reduce((prev, current) => (prev.date > current.date) ? prev : current);
     }
@@ -67,13 +67,13 @@ export class PlaycountDatabaseService implements OnModuleInit {
         this.logger.verbose(`Getting latest playcount data from database: ${albumUri}`)
         //Retrieve all playcount data for the album
         const playcountEntities = this.playcountTableClient.listEntities<PlaycountTableItem>({ queryOptions: { filter: `albumUri eq '${albumUri}'` } });
-        
+
         const playcountDtos: PlaycountDto[] = [];
 
         for await (const entity of playcountEntities) {
             playcountDtos.push(PlaycountDto.fromTableItem(entity));
         }
-        
+
         //Keeps only the latest playcount data for each track uri
         const latestPlaybookDtos = Object.values(groupBy(playcountDtos, 'uri'))
             .map(playcountDtos => playcountDtos
@@ -94,7 +94,7 @@ export class PlaycountDatabaseService implements OnModuleInit {
         for await (const entity of playcountEntities) {
             playcountDtos.push(PlaycountDto.fromTableItem(entity));
         }
-        
+
         return playcountDtos
     }
 

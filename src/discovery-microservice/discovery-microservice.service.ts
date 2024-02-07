@@ -10,7 +10,7 @@ export class DiscoveryMicroserviceService {
     constructor(
         private readonly httpService: HttpService,
         private readonly configService: ConfigService
-    ) {}
+    ) { }
     logger = new Logger(DiscoveryMicroserviceService.name)
 
     postPlaycountData(tracksData: PlaycountDto[]) {
@@ -20,5 +20,5 @@ export class DiscoveryMicroserviceService {
                 .post(`${this.configService.get('MICROSERVICE_DISCOVERY_URL')}/playcount/track/many`, tracksData)
         )
     }
-    
+
 }

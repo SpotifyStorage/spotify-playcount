@@ -7,7 +7,7 @@ import { ApiTags } from "@nestjs/swagger";
 export class AlbumQueuePopulatorController {
     constructor(
         private readonly albumQueuePopulatorService: AlbumQueuePopulatorService
-    ) {}
+    ) { }
 
 
     @Get('populate')

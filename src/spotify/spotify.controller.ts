@@ -13,10 +13,10 @@ export class SpotifyController {
         private readonly tokenService: TokenService,
         private readonly albumQueueService: AlbumQueueService,
         private readonly playcountDatabaseService: PlaycountDatabaseService
-    ) {}
+    ) { }
     logger = new Logger(SpotifyController.name)
 
-    @ApiQuery({name: 'albumid'})
+    @ApiQuery({ name: 'albumid' })
     @Get('albumData')
     async getAlbumData(@Query('albumid') albumId: string) {
         return this.spotifyService.getAlbumData(
@@ -29,7 +29,7 @@ export class SpotifyController {
     async getAlbumPlaycount(@Query('albumid') albumId: string) {
         this.logger.verbose('Getting album playcount for ' + albumId)
         return this.spotifyService.getAlbumPlaycount(
-            albumId, 
+            albumId,
             (await this.tokenService.getValidToken()).accessToken
         )
     }

@@ -11,4 +11,4 @@ import { SpotifyModule } from 'src/spotify/spotify.module';
     providers: [TokenService],
     exports: [TokenService]
 })
-export class TokenModule {}
+export class TokenModule { }

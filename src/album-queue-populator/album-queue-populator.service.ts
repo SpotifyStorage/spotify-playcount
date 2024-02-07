@@ -13,7 +13,7 @@ export class AlbumQueuePopulatorService {
         private readonly httpService: HttpService,
         private readonly configService: ConfigService,
         private albumeQueueService: AlbumQueueService
-    ) {}
+    ) { }
     logger = new Logger(AlbumQueuePopulatorService.name)
 
     populateQueue() {

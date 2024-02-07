@@ -13,9 +13,9 @@ export class SpotifyService {
     constructor(
         private readonly httpService: HttpService,
         private readonly tokenService: TokenService
-    ) {}
+    ) { }
     logger = new Logger(SpotifyService.name)
-    
+
     getHeader(authToken: string) {
         return {
             'accept': 'application/json',
@@ -52,7 +52,7 @@ export class SpotifyService {
 
         return lastValueFrom(
             this.httpService
-                .get<AlbumResponse>('https://api-partner.spotify.com/pathfinder/v1/query?' + stringify(payload), {headers: header})
+                .get<AlbumResponse>('https://api-partner.spotify.com/pathfinder/v1/query?' + stringify(payload), { headers: header })
                 .pipe(
                     map(
                         axiosResponse => axiosResponse.data

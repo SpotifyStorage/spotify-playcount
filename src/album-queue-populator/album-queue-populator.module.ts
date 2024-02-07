@@ -5,8 +5,8 @@ import { AlbumQueuePopulatorController } from './album-queue-populator.controlle
 import { AlbumQueueModule } from 'src/album-queue/album-queue.module';
 
 @Module({
-  imports: [HttpModule, AlbumQueueModule],
-  controllers: [AlbumQueuePopulatorController],
-  providers: [AlbumQueuePopulatorService]
+    imports: [HttpModule, AlbumQueueModule],
+    controllers: [AlbumQueuePopulatorController],
+    providers: [AlbumQueuePopulatorService]
 })
-export class AlbumQueuePopulatorModule {}
+export class AlbumQueuePopulatorModule { }

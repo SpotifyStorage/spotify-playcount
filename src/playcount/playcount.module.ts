@@ -6,4 +6,4 @@ import { PlaycountDatabaseModule } from 'src/playcount-database/playcount-databa
   imports: [PlaycountDatabaseModule],
   controllers: [PlaycountController]
 })
-export class PlaycountModule {}
+export class PlaycountModule { }
