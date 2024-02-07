@@ -98,8 +98,15 @@ export class PlaycountDatabaseService implements OnModuleInit {
         return playcountDtos
     }
 
-    async getManyByLastWeek(uri: string) {
+    async getManyByLastWeek(uri: string): Promise<PlaycountDto[]> {
+        this.logger.verbose(`Getting playcount data from database: ${uri}`)
+        const playcountEntities = this.playcountTableClient.listEntities<PlaycountTableItem>({ queryOptions: { filter: `PartitionKey eq '${uri}'` } });
+        const playcountDtos: PlaycountDto[] = [];
+        for await (const entity of playcountEntities) {
+            playcountDtos.push(PlaycountDto.fromTableItem(entity));
+        }
         
+        return playcountDtos
     }
 
 }
