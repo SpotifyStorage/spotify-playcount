@@ -23,6 +23,12 @@ export class PlaycountController {
         return (await this.playcountDatabaseService.getManyLatestByAlbumUri(albumId))
     }
 
+    @Get('album/last-week')
+    @ApiOperation({summary: 'Get all playcount data of an album from the last 7 days'})
+    async getLastWeekAlbumPlaycount(@Query('albumid') albumId: string) {
+        return await this.playcountDatabaseService.getManyLastWeekByAlbum(albumId)
+    }
+
     @Get('track/latest')
     @ApiOperation({ summary: 'Get latest playcount for a track' })
     async getLatestTrackPlaycount(@Query('trackid') trackId: string) {
@@ -37,7 +43,7 @@ export class PlaycountController {
 
     @Get('track/last-week')
     @ApiOperation({summary: 'Get all playcount data of a track from the last 7 days'})
-    getLastWeekTrackPlaycount(@Query('trackid') trackId: string) {
-
+    async getLastWeekTrackPlaycount(@Query('trackid') trackId: string) {
+        return await this.playcountDatabaseService.getManyLastWeekByTrack(trackId)
     }
 }
